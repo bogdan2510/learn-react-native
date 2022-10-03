@@ -1,6 +1,16 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+	Button,
+	StyleSheet,
+	Text,
+	TextInput,
+	TextInputProps,
+	TouchableOpacity,
+	View,
+	ViewProps,
+	ViewStyle,
+} from 'react-native';
 
 export default function App() {
 	type Props = {
@@ -27,6 +37,36 @@ export default function App() {
 		);
 	};
 
+	type CustomTextInpuntProps = TextInputProps & {
+		email?: boolean;
+		password?: boolean;
+	};
+	const CustomTextInput = (props: CustomTextInpuntProps) => {
+		const defaultStyle: ViewStyle = {
+			backgroundColor: '#efefef',
+			padding: 10,
+			borderRadius: 5,
+			height: 50,
+			width: '80%',
+		};
+
+		return (
+			<TextInput
+				{...props}
+				style={[defaultStyle, props.style]}
+				secureTextEntry={props.password ? true : false}
+				keyboardType={props.email ? 'email-address' : 'default'}
+				placeholder={
+					props.email
+						? 'Email'
+						: props.password
+						? 'Password'
+						: 'Default placeholder'
+				}
+			/>
+		);
+	};
+
 	return (
 		<View style={styles.container}>
 			<CustomButton
@@ -37,6 +77,10 @@ export default function App() {
 			/>
 			<CustomButton title='LogOut' onPress={() => console.log('LogOut')} />
 			<CustomButton title='Pay' onPress={() => console.log('Pay')} />
+
+			<CustomTextInput email />
+			<CustomTextInput password />
+			<CustomTextInput />
 		</View>
 	);
 }
